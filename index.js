@@ -1,3 +1,5 @@
+// This is a Stock Market App created by Anoop Bara.
+
 const express = require('express');
 const app = express();
 var exphbs  = require('express-handlebars');
