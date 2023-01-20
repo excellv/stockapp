@@ -1,0 +1,100 @@
+// This is a Stock Market App created by Anoop Bara.
+
+const express = require('express');
+const app = express();
+var exphbs  = require('express-handlebars');
+const path =require('path');
+const request = require('request');
+
+const PORT = process.env.PORT || 5000;
+const otherstuff= "This is some other stuff I am excited about..."
+//API Key pk_bef2f860dec440b18b166b8d0724dc74
+//API key https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=X84DO3CWLOLT7REX, {json: true }, {err, res, body} => {}
+request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_bef2f860dec440b18b166b8d0724dc74', { json:true }, (err, res, body) =>{
+   if (err){return console.log(err);}
+      console.log(body);
+   if (res.statusCode === 200){
+      console.log(body);
+  };
+       });  
+
+/*
+ function call_api(finishedAPI){
+request.get({
+    url: url,
+    json: true,
+    headers: {'User-Agent': 'request'}
+  }, (err, res, data) => {
+    if (err) {
+      console.log('Error:', err);
+    } else if (res.statusCode !== 200) {
+      console.log('Status:', res.statusCode);
+    } else {
+      // data is successfully parsed as a JSON object:
+      //console.log(data);
+        finishedAPI(data);
+    
+};
+});
+};   
+*/
+//
+// X84DO3CWLOLT7REX
+//'use strict';
+//var request = require('request');
+
+// replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+
+
+/*var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=NSE:SBIN&interval=5min&apikey=X84DO3CWLOLT7REX';
+
+function call_api(finishedAPI){
+request.get({
+    url: url,
+    json: true,
+    headers: {'User-Agent': 'request'}
+  }, (err, res, data) => {
+    if (err) {
+      console.log('Error:', err);
+    } else if (res.statusCode !== 200) {
+      console.log('Status:', res.statusCode);
+    } else {
+      // data is successfully parsed as a JSON object:
+      //console.log(data);
+        finishedAPI(data);
+    
+};
+});
+};
+/*
+/* app.engine('handlebars', exphbs.engine());
+app.set('view engine', 'handlebars');
+
+app.get('/', function (req, res) {
+    call_api(function(doneAPI) {
+     res.render('home', {
+        stock: doneAPI   
+    });
+
+    
+});
+});
+*/
+
+
+
+app.get('/', function (req, res) {
+    call_api(function(doneAPI) {
+     res.render('home', {
+        stock: doneAPI   
+    });
+
+
+// Create about page route
+app.get('/about.html', function (req, res) {
+    res.render('about');
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.listen(PORT, () => console.log('Server listening on port' + PORT));
